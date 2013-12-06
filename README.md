@@ -2,14 +2,14 @@
 
 ## Dependencies
 
-This package depends on [rackdan/maybe](https://github.com/danking/rackdan)
-which is a package for the new Racket package manager. You can install it with
-the command
+This package depends on [rackdan](https://github.com/danking/rackdan) which is a
+package for the new Racket package manager. It contains some things that I find
+useful when hacking racket. You can install it with the command
 
     raco pkg install github://github.com/danking/rackdan/master
 
-If you're not cool with that--and I totally get it--you can just clone that repo
-somewhere and run
+If you're not cool with installing random packages from githubbers on your
+machine, you can just clone the rackdan repo somewhere and run
 
     for i in *.rkt; sed -i.bak -e 's:rackdan/maybe:"RELATIVE_PATH_TO_RACKDAN_FOLDER/maybe.rkt"a:' $i
 
