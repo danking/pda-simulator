@@ -35,6 +35,27 @@
 (define (final? pdai) (eos? (pda-instance-input pdai)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Custom Rule Builders
+
+(: nt=> : ((State StackElement InputElement Stack Input)
+           [Listof StackElement]
+           ->
+           [TransitionProcedure StackElement InputElement Stack Input]))
+(define (nt=> st σ′-head)
+  (=> st
+      (lambda: ([x : Input]) x)
+      (lambda: ([x : Stack]) (append σ′-head (rest x)))))
+
+(: t=> : ((State StackElement InputElement Stack Input)
+          [Listof StackElement]
+          ->
+          [TransitionProcedure StackElement InputElement Stack Input]))
+(define (t=> st σ′-head)
+  (=> st
+      (inst rest InputElement InputElement)
+      (lambda: ([x : Stack]) (append σ′-head (rest x)))))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; S -> a A b | b A a
 ;; A -> c S | ε
 ;; [Grune & Jacobs, 248-251]

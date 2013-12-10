@@ -6,8 +6,6 @@
 
 (provide rules
          =>
-         nt=>
-         t=>
          )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -22,25 +20,17 @@
           result)
          ...)))
 
-(: => : ((State StackElement InputElement Stack Input) (Input -> Input) [Listof StackElement]
-         ->
-         [TransitionProcedure StackElement InputElement Stack Input]))
-(define (=> st modify-stack σ′-head)
+(: => : (All (StackElement InputElement Stack Input)
+             ((State StackElement InputElement Stack Input)
+              (Input -> Input)
+              (Stack -> Stack)
+              ->
+              [TransitionProcedure StackElement InputElement Stack Input])))
+(define (=> st modify-input modify-stack)
   (lambda: ([σ : Stack] [γ : Input])
     (pda-instance
      st
-     (append σ′-head (rest σ))
-     (modify-stack γ))))
+     (modify-stack σ)
+     (modify-input γ))))
 
-(: nt=> : ((State StackElement InputElement Stack Input) [Listof StackElement]
-           ->
-           [TransitionProcedure StackElement InputElement Stack Input]))
-(define (nt=> st σ′-head)
-  (=> st (lambda (x) x) σ′-head))
-
-(: t=> : ((State StackElement InputElement Stack Input) [Listof StackElement]
-          ->
-          [TransitionProcedure StackElement InputElement Stack Input]))
-(define (t=> st σ′-head)
-  (=> st rest σ′-head))
 
